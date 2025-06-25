@@ -2,11 +2,11 @@ import { type NextRequest, NextResponse } from "next/server"
 import dbConnect from "@/lib/mongodb"
 import Pedido from "@/models/Pedido"
 
-export async function GET(request: NextRequest, { params }: { params: { codigo: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ codigo: string }> }) {
   try {
     await dbConnect()
 
-    const codigo = params.codigo
+    const { codigo } = await params
     console.log("🔍 Buscando pedido:", codigo)
 
     // Buscar el pedido específico

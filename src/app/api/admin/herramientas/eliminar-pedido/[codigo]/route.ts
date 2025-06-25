@@ -3,11 +3,11 @@ import dbConnect from "@/lib/mongodb"
 import Pedido from "@/models/Pedido"
 import Producto from "@/models/Producto"
 
-export async function DELETE(request: NextRequest, { params }: { params: { codigo: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ codigo: string }> }) {
   try {
     await dbConnect()
 
-    const codigo = params.codigo
+    const { codigo } = await params
     console.log("🗑️ Eliminando pedido:", codigo)
 
     // Buscar el pedido

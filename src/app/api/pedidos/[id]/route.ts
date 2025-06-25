@@ -3,10 +3,11 @@ import dbConnect from "@/lib/mongodb"
 import Pedido from "@/models/Pedido"
 import Producto from "@/models/Producto"
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect()
-    const pedido = await Pedido.findById(params.id).populate("items.producto")
+    const { id } = await params
+    const pedido = await Pedido.findById(id).populate("items.producto")
 
     if (!pedido) {
       return NextResponse.json({ success: false, error: "Pedido no encontrado" }, { status: 404 })
@@ -21,13 +22,14 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect()
+    const { id } = await params
     const data = await request.json()
 
     // Obtener el pedido actual para comparar estados
-    const pedidoActual = await Pedido.findById(params.id)
+    const pedidoActual = await Pedido.findById(id)
     if (!pedidoActual) {
       return NextResponse.json({ success: false, error: "Pedido no encontrado" }, { status: 404 })
     }
@@ -57,7 +59,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       }
     }
 
-    const pedido = await Pedido.findByIdAndUpdate(params.id, data, { new: true, runValidators: true })
+    const pedido = await Pedido.findByIdAndUpdate(id, data, { new: true, runValidators: true })
 
     return NextResponse.json({
       success: true,
@@ -69,12 +71,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect()
+    const { id } = await params
 
     // Obtener el pedido antes de eliminarlo para devolver stock si es necesario
-    const pedido = await Pedido.findById(params.id)
+    const pedido = await Pedido.findById(id)
     if (!pedido) {
       return NextResponse.json({ success: false, error: "Pedido no encontrado" }, { status: 404 })
     }
@@ -87,7 +90,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     // Eliminar el pedido
-    await Pedido.findByIdAndDelete(params.id)
+    await Pedido.findByIdAndDelete(id)
 
     return NextResponse.json({
       success: true,
