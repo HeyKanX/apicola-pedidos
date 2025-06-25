@@ -2,12 +2,13 @@ import { type NextRequest, NextResponse } from "next/server"
 import dbConnect from "@/lib/mongodb"
 import Pedido from "@/models/Pedido"
 
-export async function GET(request: NextRequest, { params }: { params: { codigo: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ codigo: string }> }) {
   try {
     await dbConnect()
 
     // Decodificar y limpiar el código
-    const codigoBusqueda = decodeURIComponent(params.codigo).trim().toUpperCase()
+    const { codigo } = await params
+    const codigoBusqueda = decodeURIComponent(codigo).trim().toUpperCase()
 
     console.log("Buscando pedido con código:", codigoBusqueda)
 
