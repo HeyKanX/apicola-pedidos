@@ -68,7 +68,7 @@
   }
 }
 
-/* Estilos personalizados para la aplicación */
+/* Estilos personalizados para móvil */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -102,4 +102,56 @@
 
 .product-card:hover {
   @apply shadow-lg transform scale-105;
+}
+
+/* Optimizaciones móviles */
+@media (max-width: 640px) {
+  /* Botones más grandes para táctil */
+  .btn-mobile {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Texto más legible en móvil */
+  .text-mobile {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Espaciado optimizado */
+  .container-mobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Formularios móviles */
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Evita zoom en iOS */
+  }
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimización para pantallas táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:scale-105:hover {
+    transform: none;
+  }
+
+  .hover\:shadow-lg:hover {
+    box-shadow: none;
+  }
+}
+
+/* PWA optimizations */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
