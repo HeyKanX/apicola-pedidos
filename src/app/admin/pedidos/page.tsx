@@ -234,7 +234,7 @@ export default function AdminPedidos() {
                 <strong>Cliente:</strong> {pedido.cliente.nombre}
               </p>
               <p>
-                <strong>Email:</strong> {pedido.cliente.email}
+                <strong>:</strong> {pedido.cliente.email}
               </p>
               <p>
                 <strong>Teléfono:</strong> {pedido.cliente.telefono}

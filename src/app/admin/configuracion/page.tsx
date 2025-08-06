@@ -323,7 +323,7 @@ export default function AdminConfiguracion() {
               <div>
                 <Label htmlFor="x" className="flex items-center space-x-2">
                   <XIcon className="h-4 w-4" />
-                  <span>X (Twitter)</span>
+                  <span>X (WhatsApp)</span>
                 </Label>
                 <Input
                   id="x"
